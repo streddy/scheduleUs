@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import Event
+from django.urls import reverse_lazy
+from django.views.generic.edit import DeleteView, UpdateView
 def create_event(request):
     if request.method == 'POST':  # data sent by user
         form = EventCreationForm(request.POST)
@@ -42,3 +44,13 @@ def dashboard(request):
         event_list = {}
         context = {'event_list' : event_list, }
     return HttpResponse(template.render(context, request))
+
+class EventDelete(DeleteView):
+    model = Event
+    success_url = reverse_lazy('delete_event')
+
+class EventUpdate(UpdateView):
+    model = Event
+    template_name = 'event_update_form.html'
+    fields = ['name', 'location', 'description']
+    success_url = reverse_lazy('dashboard')

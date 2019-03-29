@@ -16,6 +16,7 @@
     {% else %}
         <p>Who dis?</p> &nbsp;
     {% endif %}
+
     <a href={% url 'logout' %}>Logout</a> &nbsp;
     <a href={% url 'contact' %}>Contact</a> &nbsp;
     <a href={% url 'about' %}>About</a> &nbsp;
@@ -29,10 +30,16 @@
 <p> Organizer : {{event.organizer.username}}</p>
 <p> Location : {{event.location}}</p>
 <p> Event Description : {{event.description}}</p>
-<a align=“center” href={% url 'delete_event'%}><button>Delete event</button></a>
 <br><br>
-
-<a align=“center” href={% url 'create_event' %}><button>Modify event</button></a>
+<form action = "{% url 'event_confirm_delete' event.pk %}" method = "post">{% csrf_token %}
+  <p> Do you want to delete {{event.name}}?</p>
+  <input type = "submit" value = "Confirm" />
+</form>
+<br><br>
+<form action = "{% url 'event_update' event.pk %}" method = "post">{% csrf_token %}
+  <p> Do you want to update {{event.name}}?</p>
+  <input type = "submit" value = "Confirm" />
+</form>
 <br><br>
 </body>
 </html>
