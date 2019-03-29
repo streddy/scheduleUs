@@ -124,5 +124,5 @@ STATICFILES_DIRS = [
 ]
 AUTH_USER_MODEL = 'users.Profile'
 
-LOGIN_REDIRECT_URL = 'personal'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
