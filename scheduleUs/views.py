@@ -33,10 +33,7 @@ def dashboard(request):
 
     if(request.user.is_authenticated):
         username = request.user.username
-        #STILL NEED TO FIX THIS I HAVE NO WAY HOW TO
-        #user = models.OneToOneField(User,related_name="profile")
-        #event_list = Event.objects.filter(organizer = request.user.profile)
-        event_list = Event.objects.all()
+        event_list = Event.objects.filter(organizer=request.user)
         context = { 'event_list' : event_list,}
     else :
         event_list = {}
