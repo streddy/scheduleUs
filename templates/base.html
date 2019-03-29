@@ -1,0 +1,16 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}ScheduleUs{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+</head>
+<body>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

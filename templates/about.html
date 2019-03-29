@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+
+<html lang="en-US">
+<head>
+<title>ScheduleUs - About </title>
+</head>
+
+<body>
+<div class="header-right">
+    <a href={% url 'home' %}>Home</a> &nbsp;
+    <a href={% url 'contact' %}>Contact</a> &nbsp;
+</div>
+
+<h2> Description </h2>
+<p> ScheduleUs is an online calendar tool that helps finding the best time and day to meet according to multiple users&#39; availability (and possibly preferences). It will require users to sign up and enter some detailed informations (e.g. email, friends list). A user will be able to create a poll and share it with multiple friends who will also enter their availabilities. ScheduleUs will then suggest a time to hold the meeting. ScheduleUs will also offer the possibility to directly pull schedules from Google calendar to automate the process of collecting everyone&#39;s available times. Users will also be able to create public events, and ScheduleUs will assign other users interested in such an event (e.g. based on users availability, preference, and maximum number of attendees). </p>
+
+<h2> Usefulness </h2>
+<p> Meetings are an essential part of everyone&#39;s daily life. Although scheduling a meeting with a few participants is relatively easy, it becomes incredibly more complicated as the number of participants increases. Therefore, online tools become necessary to make sure to have as many participants as possible.
+There are several online &#34;date matchers&#34; available. The most widely used is Doodle, which is an online calendar tool for time management and coordinating meetings. Other options include TeamUp, Dudle, Asana, Calendr, and Xoyondo. Although those tools are usually able to add the scheduled meeting to everyone&#39;s calendar, some are not able to directly use the participants&#39; calendars to decide on the best time to meet. Another feature that those existing tools do not offer is the possibility to schedule gathering with random participants (e.g. based on their specific interest in a given event, or based on shared hobbies or interests). </p>
+
+<h2>Realness </h2>
+<p> Our data will consist of the following: </p>
+<p> User attributes connected to user profiles: </p>
+<ul>
+<li> User ID </li>
+<li>User name </li>
+<li>User email </li>
+<li>User's location </li>
+<li>User's interests </li>
+<li>User's friends </li>
+<li>User's schedules </li>
+</ul>
+
+<p> Schedule attributes connected to each schedule: </p>
+<ul>
+<li>Schedule ID </li>
+<li>Scheduled events </li>
+</ul>
+
+<p>Event attributes connected to each event: </p>
+<ul>
+<li>Event ID </li>
+<li>Event name </li>
+<li>Event location </li>
+<li>Event time </li>
+<li>Event organizer </li>
+<li>Event attendees </li>
+<li>Event description </li>
+</ul>
+
+<p> We will gather data through user input from at least 10 real user accounts. These users will create their profiles and generate schedules containing events. We will also gather schedule data by pulling user schedules from their Google Calendar and parsing them for use with ScheduleUs. </p>
+
+<h2> Functionality </h2>
+
+<h3> Basic Functions </h3>
+<ul>
+<li> Create and manage user account: Users will be able to create an account and manage properties such as their linked email address, friends list, their interests, and their schedules. </li>
+<li> Create polls for planning events around everyone's schedules: Users will be able to create the equivalent of a Doodle poll for a planned event, and can send the poll to users they wish to invite. The recipients can respond to the poll by selecting the times they are available (via their schedules), and ScheduleUs will determine the best time for the event to take place. </li>
+<li> Updating events: Users should be able to change events even after they have been created. For example, users will be able to update event properties such as the time, location, description, etc. Similarly, event attendees should be able to modify their RSVP to an event. Events should also be deletable by the event host/organizer. </li>
+</ul>
+
+<h3> Advanced Functions </h3>
+<ul>
+<li> Pull user schedules from Google Calendar: Since many users already maintain a Google Calendar, they should be able to pull/synchronize events from their Google Calendar with ScheduleUs. We plan to include this support in order to ease user adoption of ScheduleUs. </li>
+<li> Suggested event times for event organizers: We plan to ease the burden of an event host by suggesting a reasonable time for their event depending on their schedules. This feature will analyze the user's schedule while they are creating an event or event poll and suggest a time for the event that avoids conflicts with other events. </li>
+<li> Friends vs. strangers system: In order to facilitate spontaneous gatherings and help tailor event attendees to the organizer's preferences, we plan to implement a friends system. Users can choose whether they want to submit the poll to their friends in the case of a friendly gathering, or whether they want to make the poll public (available to all ScheduleUs users). This will allow users to choose what group of people attends their events. </li>
+<li> Matching users based on interests/time schedules: If users wish to meet new people, ScheduleUs can match them with potential friends based on shared interests and aligning schedules. This strengthens the social aspect of ScheduleUs and helps users meet people on common ground. </li>
+
+</body>
+</html>
+{% endblock %}

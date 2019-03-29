@@ -1,0 +1,39 @@
+p {
+  text-align: center;
+}
+
+body {
+  background-color: #D6DBDF;
+}
+
+h1 {
+  font-family: "Times New Roman", Times, serif;
+  font-size:300%;
+  font-weight: normal;
+  text-align: center;
+}
+
+h2 {
+  font-family: "Times New Roman", Times, serif;
+  font-size:180%;
+  font-weight: normal;
+  text-align: center;
+}
+
+
+h3 {
+  font-family: "Times New Roman", Times, serif;
+  font-size:120%;
+  font-weight: normal;
+  text-align: center;
+}
+
+button{
+    height:30px; 
+    width:150px; 
+    margin: -30px -75px; 
+    position:relative;
+    top:50%; 
+    left:50%;
+    text-align: center;
+}

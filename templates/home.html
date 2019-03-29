@@ -1,0 +1,52 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<html lang="en-US">
+<head>
+<title>ScheduleUs - Find the best time for everyone</title>
+</head>
+
+<body>
+<!-- Main elements 
+The <html> element is the root element of an HTML page
+The <head> element contains meta information about the document
+The <title> element specifies a title for the document
+The <body> element contains the visible page content
+The <h1> element defines a large heading
+The <p> element defines a paragraph
+-->
+
+<div class="header-right">
+    {% load static %}
+    <a href={% url 'contact' %}>Contact</a> &nbsp;
+    <a href={% url 'about' %}>About</a>
+</div>
+
+<h1> ScheduleUs</h1>
+
+<br> 
+<br>
+
+<h2> Find the best time to meet </h2>
+<h3> With ScheduleUs, scheduling becomes even quicker and easier </h3>
+    <a align=“center” href="{% url 'login' %}"><button>Login</button>
+    <br><br>
+    <a align=“center” href="{% url 'signup' %}"><button>Sign up</button></a>
+    <br><br>
+
+<hr>
+<h2> How it works </h2>
+<p> 1. Create an event &nbsp; &nbsp; 2. Send an invite to the participants &nbsp; &nbsp; 3. Pick among the best possibilities suggested by ScheduleUs
+</p>
+
+<hr>
+<h2> You want to play sports but you don&#39;t have anybody to do it with? </h2>
+<h3> ScheduleUs can also match you with other people interested in the same type of activity (TBD) </h3>
+
+</body>
+</html>
+{% endblock %}
