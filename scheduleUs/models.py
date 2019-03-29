@@ -10,7 +10,8 @@ class Event(models.Model):
     poll_timeframe_start = models.DateTimeField('start of poll timeframe')
     poll_timeframe_end = models.DateTimeField('end of poll timeframe')
     poll_end = models.DateTimeField('poll closing time')
-
+    def __str__ (self):
+        return self.name
 
 class UserInvited(models.Model):
     invited_user = models.ForeignKey('users.Profile', on_delete=models.CASCADE)

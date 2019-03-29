@@ -33,6 +33,13 @@
 
 <hr>
 <p> List of event schedulings initiated (add button to show/edit/delete event) </p>
+{% if event_list %}
+    <ul>
+      {% for event1 in event_list %}
+        <li><a href="/{{event1.id}}/">{{event1.name}}</a></li>
+      {% endfor %}
+    </ul>
+{%endif%}
 <hr>
 <p> Events invited to/participating in (TBD) </p>
 
