@@ -12,7 +12,7 @@
 <body>
 <div class="header-right">
     {% if user.is_authenticated %}
-        <p>Welcome {{ user.get_username }}</p> &nbsp;
+        <p>Welcome {{ request.user.first_name }}</p> &nbsp;
     {% else %}
         <p>Who dis?</p> &nbsp;
     {% endif %}
