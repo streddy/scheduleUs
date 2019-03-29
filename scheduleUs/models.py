@@ -25,6 +25,3 @@ class PollResponse(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     responder_start = models.DateTimeField()
     responder_end = models.DateTimeField()
-
-    class Meta:
-        unique_together = (("responder", "event"),)
