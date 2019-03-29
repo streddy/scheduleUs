@@ -1,5 +1,5 @@
 from .forms import EventCreationForm
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 
@@ -7,11 +7,10 @@ def create_event(request):
     if request.method == 'POST':  # data sent by user
         form = EventCreationForm(request.POST)
         if form.is_valid():
-            template = loader.get_template("dashboard.html")
             obj = form.save(commit=False)
             obj.organizer = request.user
             obj.save()
-            return HttpResponse(template.render())
+            return redirect('dashboard')
     else:  # display empty form
         form = EventCreationForm()
 

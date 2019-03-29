@@ -4,11 +4,15 @@ from .models import Event, PollResponse
 
 class EventCreationForm(ModelForm):
     poll_timeframe_start = DateTimeField(
-        widget = widgets.DateTimeInput(attrs={'type':'datetime-local'}),
+            widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
 
     poll_timeframe_end = DateTimeField(
-        widget = widgets.DateTimeInput(attrs={'type':'datetime-local'}),
+            widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
+    )
+
+    poll_end = DateTimeField(
+            widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
 
     class Meta:
