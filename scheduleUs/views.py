@@ -49,5 +49,5 @@ class EventDelete(DeleteView):
 class EventUpdate(UpdateView):
     model = Event
     template_name = 'event_update_form.html'
-    fields = ['name', 'location', 'description']
+    fields = ('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end')
     success_url = reverse_lazy('dashboard')
