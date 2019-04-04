@@ -1,18 +1,19 @@
-from django.forms import ModelForm, DateTimeField, widgets
-from .models import Event, PollResponse
+from django import forms
+from django.forms import widgets
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
+from .models import Event, PollResponse
 
-class EventCreationForm(ModelForm):
-    poll_timeframe_start = DateTimeField(
+class EventCreationForm(forms.ModelForm):
+    poll_timeframe_start = forms.DateTimeField(
             widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
 
-    poll_timeframe_end = DateTimeField(
+    poll_timeframe_end = forms.DateTimeField(
             widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
 
-    poll_end = DateTimeField(
+    poll_end = forms.DateTimeField(
             widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
 

@@ -2,9 +2,11 @@ from .forms import EventCreationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
-from .models import Event
 from django.urls import reverse_lazy
 from django.views.generic.edit import DeleteView, UpdateView
+from .models import Event
+
+# EVENT VIEWS
 def create_event(request):
     if request.method == 'POST':  # data sent by user
         form = EventCreationForm(request.POST)

@@ -10,3 +10,8 @@ class Profile(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class Friends(models.Model):
+    initiator = models.ForeignKey(Profile, related_name='initiator', on_delete=models.CASCADE)
+    friend = models.ForeignKey(Profile, related_name='friend', on_delete=models.CASCADE)
