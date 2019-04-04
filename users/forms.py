@@ -23,7 +23,13 @@ class FriendForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request", None)
         super(FriendForm, self).__init__(*args, **kwargs)
-        self.fields['friend'] = forms.ModelChoiceField(queryset=Profile.objects.exclude(id=self.request.user.id))
+        
+        potentialFriends = Profile.objects.exclude(id=self.request.user.id)
+        alreadyFriends = Friends.objects.filter(initiator=self.request.user).values('friend')
+        if alreadyFriends:
+            potentialFriends = potentialFriends.exclude(id__in=alreadyFriends)
+        
+        self.fields['friend'] = forms.ModelChoiceField(queryset=potentialFriends)
     
     class Meta:
         model = Friends
