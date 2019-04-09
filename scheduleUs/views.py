@@ -2,7 +2,7 @@ from .forms import EventCreationForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import DeleteView, UpdateView
 from .models import Event
 
@@ -14,11 +14,17 @@ def create_event(request):
             obj = form.save(commit=False)
             obj.organizer = request.user
             obj.save()
-            return redirect('dashboard')
+            return redirect(reverse('invite_users', kwargs={"event_id": obj.pk}))
     else:  # display empty form
         form = EventCreationForm()
 
     return render(request, 'create_event.html', {'event_form': form})
+
+def invite_users(request, event_id):
+    template = loader.get_template('invite_users.html')
+    curr_event = Event.objects.get(id=event_id)
+    context = {'event' : curr_event,}
+    return HttpResponse(template.render(context, request))
 
 def event_page(request, event_id):
     template = loader.get_template('event_page.html')

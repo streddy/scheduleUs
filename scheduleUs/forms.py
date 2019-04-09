@@ -6,15 +6,15 @@ from .models import Event, PollResponse
 
 class EventCreationForm(forms.ModelForm):
     poll_timeframe_start = forms.DateTimeField(
-            widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
+        widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
 
     poll_timeframe_end = forms.DateTimeField(
-            widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
+        widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
 
     poll_end = forms.DateTimeField(
-            widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
+        widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
 
     class Meta:
