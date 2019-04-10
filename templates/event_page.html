@@ -30,6 +30,11 @@
 <p> Organizer : {{event.organizer.username}}</p>
 <p> Location : {{event.location}}</p>
 <p> Event Description : {{event.description}}</p>
+{% if event.is_public %}
+    <p>This is a public event</p>
+{% else %}
+    <p>This is a private event</p>
+{% endif %}
 <br><br>
 <form action = "{% url 'event_confirm_delete' event.pk %}" method = "post">{% csrf_token %}
   <p> Do you want to delete {{event.name}}?</p>

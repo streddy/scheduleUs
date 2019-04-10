@@ -3,11 +3,20 @@
 {% block title %}Create Event{% endblock %}
 
 {% block content %}
-<h2>Invite Users</h2>
-<p> Event Details </p>
-<hr>
-<p> Name : {{event.name}} </p>
-<p> Organizer : {{event.organizer.username}}</p>
-<p> Location : {{event.location}}</p>
-<p> Event Description : {{event.description}}</p>
+<h2>Invite Friends</h2>
+<form action="{% url 'invite_users' event.pk %}" method="post">
+    {% csrf_token %}
+    {{ invite_form.management_form }}
+        <table>
+            {% for form in invite_form %}
+            <tr>
+                <td>
+                {{ form.instance.invited_user.username }}
+                {{ form }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    <button type="submit">Send Invitations!</button>
+</form>
 {% endblock %}

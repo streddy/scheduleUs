@@ -19,4 +19,7 @@ class EventCreationForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end')
+        fields = ('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end', 'is_public')
+        labels = {
+            "is_public": "Do you want to make this a public event?"
+        }
