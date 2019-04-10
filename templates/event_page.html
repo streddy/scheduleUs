@@ -36,15 +36,17 @@
     <p>This is a private event</p>
 {% endif %}
 <br><br>
-<form action = "{% url 'event_confirm_delete' event.pk %}" method = "post">{% csrf_token %}
-  <p> Do you want to delete {{event.name}}?</p>
-  <input type = "submit" value = "Confirm" />
-</form>
-<br><br>
-<form action = "{% url 'event_update' event.pk %}" method = "post">{% csrf_token %}
-  <p> Do you want to update {{event.name}}?</p>
-  <input type = "submit" value = "Confirm" />
-</form>
+{% if event.organizer == user %}
+    <form action = "{% url 'event_confirm_delete' event.pk %}" method = "post">{% csrf_token %}
+      <p> Do you want to delete {{event.name}}?</p>
+      <input type = "submit" value = "Confirm" />
+    </form>
+    <br><br>
+    <form action = "{% url 'event_update' event.pk %}" method = "post">{% csrf_token %}
+      <p> Do you want to update {{event.name}}?</p>
+      <input type = "submit" value = "Confirm" />
+    </form>
+{% endif %}
 <br><br>
 </body>
 </html>

@@ -41,8 +41,14 @@
     </ul>
 {%endif%}
 <hr>
-<p> Events invited to/participating in (TBD) </p>
-
+<p> Events invited to and public events </p>
+{% if invited_list %}
+    <ul>
+      {% for event1 in invited_list %}
+        <li><a href="/{{event1.id}}/">{{event1.name}}</a></li>
+      {% endfor %}
+    </ul>
+{%endif%}
 </body>
 </html>
 {% endblock %}

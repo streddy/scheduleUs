@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import DeleteView, UpdateView
+from django.db.models import Q
 from .models import Event, UserInvited
 from users.models import Friends
 
@@ -63,13 +64,17 @@ def dashboard(request):
     username = None
     template=loader.get_template('dashboard.html')
 
+    event_list = {}
+    invited_list = {}
     if(request.user.is_authenticated):
         username = request.user.username
         event_list = Event.objects.filter(organizer=request.user)
-        context = { 'event_list' : event_list,}
-    else :
-        event_list = {}
-        context = {'event_list' : event_list, }
+        invited = UserInvited.objects.filter(invited_user=request.user).values('event')
+        invited_list = Event.objects.filter(Q(id__in=invited) | Q(is_public=True))
+        if invited_list:
+            invited_list = invited_list.exclude(organizer=request.user)
+    
+    context = {'event_list' : event_list, 'invited_list' : invited_list}
     return HttpResponse(template.render(context, request))
 
 class EventDelete(DeleteView):
