@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Friend{% endblock %}
+
+{% block content %}
+<h2>Add Friend</h2>
+<form action="{% url 'add_friend' %}" method="post">
+    {% csrf_token %}
+    {{ add_friend_form.as_p }}
+    <button type="submit">Add Friend</button>
+</form>
+{% endblock %}

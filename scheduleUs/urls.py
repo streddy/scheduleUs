@@ -26,4 +26,10 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('create_event/', views.create_event, name='create_event'),
+    path('create_event/<int:event_id>/', views.invite_users, name='invite_users'), 
+    path('dashboard/', views.dashboard, name = 'dashboard'),
+    path('<int:event_id>/', views.event_page, name = 'event_page'),
+    path('delete_event/', views.delete_event, name = 'delete_event'),
+    path('<int:pk>/delete/', views.EventDelete.as_view(), name='event_confirm_delete'),
+    path('<int:pk>/event_update/', views.EventUpdate.as_view(), name='event_update'),
 ]

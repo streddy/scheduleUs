@@ -1,0 +1,4 @@
+<form action = "{% url 'event_confirm_delete' event.slug%}" method = "post">{% csrf_token %}
+  <p> Do you want to delete {{event.name}}?</p>
+  <input type = "submit" value = "Confirm" />
+</form>

@@ -1,3 +1,8 @@
 *.swp
 *.swo
 *.pyc
+users/__pycache__/
+users/migrations/
+scheduleUs/__pycache__/
+scheduleUs/migrations/
+db.sqlite3

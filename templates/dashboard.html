@@ -12,7 +12,7 @@
 <body>
 <div class="header-right">
     {% if user.is_authenticated %}
-        <p>Welcome {{ user.get_username }}</p> &nbsp;
+        <p>Welcome {{ request.user.first_name }}</p> &nbsp;
     {% else %}
         <p>Who dis?</p> &nbsp;
     {% endif %}
@@ -26,16 +26,29 @@
 
 <a align=“center” href={% url 'create_event' %}><button>Create an event</button></a>
 <br><br>
-<a align=“center” href=inner/connect_book.htm><button>Connect your address book</button></a>
+<a align=“center” href={% url 'add_friend' %}><button>Add a friend</button></a>
 <br><br>
 <a align=“center” href=inner/connect_calendar.htm><button>Connect your calendar</button></a>
 <br><br>
 
 <hr>
 <p> List of event schedulings initiated (add button to show/edit/delete event) </p>
+{% if event_list %}
+    <ul>
+      {% for event1 in event_list %}
+        <li><a href="/{{event1.id}}/">{{event1.name}}</a></li>
+      {% endfor %}
+    </ul>
+{%endif%}
 <hr>
-<p> Events invited to/participating in (TBD) </p>
-
+<p> Events invited to and public events </p>
+{% if invited_list %}
+    <ul>
+      {% for event1 in invited_list %}
+        <li><a href="/{{event1.id}}/">{{event1.name}}</a></li>
+      {% endfor %}
+    </ul>
+{%endif%}
 </body>
 </html>
 {% endblock %}
