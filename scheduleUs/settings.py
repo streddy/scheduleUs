@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'users.apps.UsersConfig',
     'mapwidgets',
+    'leaflet',
     'scheduleUs',
 ]
 

@@ -7,6 +7,9 @@
 <html lang="en-US">
 <head>
 <title>ScheduleUs - Event Page </title>
+{% load leaflet_tags %}
+{% leaflet_js %}
+{% leaflet_css %}
 </head>
 
 <body>
@@ -28,7 +31,22 @@
 <hr>
 <p> Name : {{event.name}} </p>
 <p> Organizer : {{event.organizer.username}}</p>
-<p> Location : {{event.location}}</p>
+
+<div>
+    <p> Location: </p>
+    {% leaflet_map "event_map" callback="map_init" %}
+</div>
+<script type="text/javascript">
+    function map_init(map, options) {
+        // get point lat and lon
+        var lon = "{{ event.location.x }}";
+        var lat = "{{ event.location.y }}";
+        // zoom to point & add it to map
+        map.setView([lat, lon], 17);
+        L.marker([lat, lon]).addTo(map);
+    }
+</script>
+
 <p> Event Description : {{event.description}}</p>
 {% if event.is_public %}
     <p>This is a public event</p>
