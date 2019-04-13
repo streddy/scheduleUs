@@ -1,15 +1,8 @@
-{% block content %}
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-<title>ScheduleUs - Delete Event </title>
-</head>
+{% extends 'base.html' %}
 
-<body>
+{% block title %}Delete Event{% endblock %}
+
+{% block content %}
 <h2> Event was deleted. Please return to the dash board. </h2>
 <a align=“center” href={% url 'dashboard' %}><button>Back to dash</button></a>
-<br><br>
-
-</body>
-</html>
 {% endblock %}

@@ -39,12 +39,12 @@
 {% if event.organizer == user %}
     <form action = "{% url 'event_confirm_delete' event.pk %}" method = "post">{% csrf_token %}
       <p> Do you want to delete {{event.name}}?</p>
-      <input type = "submit" value = "Confirm" />
+      <button type = "submit">Delete</button>
     </form>
     <br><br>
     <form action = "{% url 'event_update' event.pk %}" method = "post">{% csrf_token %}
       <p> Do you want to update {{event.name}}?</p>
-      <input type = "submit" value = "Confirm" />
+      <button type = "submit">Update</button>
     </form>
 {% endif %}
 <br><br>
