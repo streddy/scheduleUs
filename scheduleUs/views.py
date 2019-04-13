@@ -1,5 +1,6 @@
 from .forms import EventCreationForm
 from django.forms import modelformset_factory
+from django.forms.models import modelform_factory
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
@@ -8,6 +9,7 @@ from django.views.generic.edit import DeleteView, UpdateView
 from django.db.models import Q
 from .models import Event, UserInvited
 from users.models import Friends
+from mapwidgets.widgets import GooglePointFieldWidget
 
 # EVENT VIEWS
 def create_event(request):
@@ -83,6 +85,10 @@ class EventDelete(DeleteView):
 
 class EventUpdate(UpdateView):
     model = Event
+    form_class =  modelform_factory(
+        Event,
+        fields=('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end', 'is_public'),
+        widgets={'location': GooglePointFieldWidget}
+    )
     template_name = 'event_update_form.html'
-    fields = ('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end', 'is_public')
     success_url = reverse_lazy('dashboard')
