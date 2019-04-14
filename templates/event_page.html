@@ -25,11 +25,10 @@
     <a href={% url 'about' %}>About</a> &nbsp;
     <a href={% url 'dashboard'%}> Dashboard </a> &nbsp;
 </div>
-<h2> Event Page </h2>
+<h2> Event Details </h2>
 <hr>
-<p> Event Details </p>
+<h3><b> {{event.name}} </b></h3>
 <hr>
-<p> Name : {{event.name}} </p>
 <p> Organizer : {{event.organizer.username}}</p>
 
 <div>
@@ -43,7 +42,7 @@
         var lat = "{{ event.location.y }}";
         // zoom to point & add it to map
         map.setView([lat, lon], 17);
-        L.marker([lat, lon]).addTo(map);
+        L.marker([lat, lon]).addTo(map).bindPopup("<b>{{event.name}}</b><br>{{event.description}}");
     }
 </script>
 

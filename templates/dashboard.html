@@ -7,6 +7,9 @@
 <html lang="en-US">
 <head>
 <title>ScheduleUs - Personal dashboard </title>
+{% load leaflet_tags %}
+{% leaflet_js %}
+{% leaflet_css %}
 </head>
 
 <body>
@@ -48,7 +51,47 @@
         <li><a href="/{{event1.id}}/">{{event1.name}}</a></li>
       {% endfor %}
     </ul>
+
+    <div>
+        {% leaflet_map "invited_map" callback="invited_init" %}
+    </div>
+    <script type="text/javascript">
+        function invited_init(map, options) {
+            {% if invited_list.count > 1 %}
+                var markerList = [];
+                var eventNameList = [];
+                var eventDescList = [];
+                var latLngList = [];
+                {% for event in invited_list %}
+                    // get point lat and lon
+                    var lon = {{ event.location.x }};
+                    var lat = {{ event.location.y }};
+                    latLngList.push(L.latLng(lat, lon));
+                    markerList.push(L.marker([lat, lon]));
+                    eventNameList.push("{{ event.name }}");
+                    eventDescList.push("{{ event.description }}");
+                {% endfor %}
+                
+                var bounds = new L.LatLngBounds(latLngList);
+                map.fitBounds(bounds)
+                
+                for(i = 0; i < markerList.length; i++){
+                    markerList[i].addTo(map).bindPopup("<b>" + eventNameList[i] + "</b><br>" + eventDescList[i]);
+                }
+            {% else %}
+                {% for event in invited_list %}
+                    // get point lat and lon
+                    var lon = {{ event.location.x }};
+                    var lat = {{ event.location.y }};
+                    map.setView([lat, lon], 17);
+                    L.marker([lat, lon]).addTo(map).bindPopup("<b>{{event.name}}</b><br>{{event.description}}"); 
+                {% endfor %}
+            {% endif %}
+        }
+    </script>
+
 {%endif%}
+
 </body>
 </html>
 {% endblock %}
