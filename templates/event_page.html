@@ -36,6 +36,14 @@
 {% else %}
     <p>This is a private event</p>
 {% endif %}
+
+{% if event.allow_flex %}
+    <p>This event might be shortened to maximize attendance</p>
+{% endif %}
+
+{% if event.on_time_attendees %}
+    <p>Attendees can arrive late or leave the event early</p>
+{% endif %}
 <br><br>
 {% if event.organizer == user %}
     <form action = "{% url 'event_confirm_delete' event.pk %}" method = "post">{% csrf_token %}

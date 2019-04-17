@@ -12,6 +12,9 @@ class Event(models.Model):
     poll_timeframe_end = models.DateTimeField('end of poll timeframe')
     poll_end = models.DateTimeField('poll closing time')
     event_length = models.DurationField()
+    allow_flex = models.BooleanField(default=False)
+    on_time_attendees = models.BooleanField(default=False)
+
     def __str__ (self):
         return self.name
 
