@@ -30,10 +30,19 @@
 <p> Organizer : {{event.organizer.username}}</p>
 <p> Location : {{event.location}}</p>
 <p> Event Description : {{event.description}}</p>
+<p> Event Duration : {{event.event_length}}</p>
 {% if event.is_public %}
     <p>This is a public event</p>
 {% else %}
     <p>This is a private event</p>
+{% endif %}
+
+{% if event.allow_flex %}
+    <p>This event might be shortened to maximize attendance</p>
+{% endif %}
+
+{% if event.on_time_attendees %}
+    <p>Attendees can arrive late or leave the event early</p>
 {% endif %}
 <br><br>
 {% if event.organizer == user %}
