@@ -37,6 +37,14 @@
 {% endif %}
 <br><br>
 {% if event.organizer == user %}
+{% elif event.is_closed %}
+    <p> Event polling is closed. Please contact Event Organizer if you have questions. </p>
+{% else %}
+    <li><a href= "/{{event.id}}/event_response/">Respond to Event</a></li>
+    <li><a href= "/{{event.id}}/event_decline/">I'm not going</a></li>
+{% endif %}
+<br><br>
+{% if event.organizer == user %}
     <form action = "{% url 'event_confirm_delete' event.pk %}" method = "post">{% csrf_token %}
       <p> Do you want to delete {{event.name}}?</p>
       <input type = "submit" value = "Confirm" />

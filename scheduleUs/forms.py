@@ -16,10 +16,22 @@ class EventCreationForm(forms.ModelForm):
     poll_end = forms.DateTimeField(
         widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
     )
-
     class Meta:
         model = Event
         fields = ('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end', 'is_public')
         labels = {
             "is_public": "Do you want to make this a public event?"
         }
+
+
+
+class EventResponseForm(forms.ModelForm):
+    responder_start = forms.DateTimeField( 
+        widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
+    )
+    responder_end = forms.DateTimeField(
+        widget = widgets.DateTimeInput(format="%m/%d/%Y %H:%M:%S", attrs={'placeholder':"MM/DD/YYYY HH:MM:SS"}),
+    )
+    class Meta:
+        model = PollResponse
+        fields = ('responder_start', 'responder_end') #still have to figure out declining poll
