@@ -32,4 +32,6 @@ urlpatterns = [
     path('delete_event/', views.delete_event, name = 'delete_event'),
     path('<int:pk>/delete/', views.EventDelete.as_view(), name='event_confirm_delete'),
     path('<int:pk>/event_update/', views.EventUpdate.as_view(), name='event_update'),
+    path('<int:event_id>/event_response/', views.respond_to_event, name='event_response'),
+    path('<int:event_id>/event_decline/', views.decline_event, name='event_decline'),
 ]
