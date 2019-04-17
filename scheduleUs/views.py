@@ -1,17 +1,19 @@
 from .forms import EventCreationForm, EventResponseForm
 from django.forms import modelformset_factory
+from django.forms.models import modelform_factory
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import DeleteView, UpdateView
-from django.db.models import Q
 from .models import Event, UserInvited
 from users.models import Friends
+from mapwidgets.widgets import GooglePointFieldWidget
 import datetime
 import pytz
 
 utc=pytz.UTC
+
 
 # EVENT VIEWS
 def create_event(request):
@@ -104,10 +106,10 @@ def dashboard(request):
                 obj = Event.objects.get(id = event1.id)
                 obj.is_closed = True
                 obj.save()
-                #event1.is_closed = True
-        invited = UserInvited.objects.filter(invited_user=request.user).values('event')
-        invited_list = Event.objects.filter(Q(id__in=invited) | Q(is_public=True))
+                
+        invited_list = UserInvited.objects.filter(invited_user=request.user).values('event')
         if invited_list:
+            invited_list = Event.objects.filter(id__in=invited_list)
             invited_list = invited_list.exclude(is_closed=True)
             invited_list = invited_list.exclude(organizer=request.user)
             for event1 in invited_list:
@@ -116,8 +118,13 @@ def dashboard(request):
                     obj = Event.objects.get(id = event1.id)
                     obj.is_closed = True
                     obj.save()
-    
-    context = {'event_list' : event_list, 'invited_list' : invited_list}
+
+        public_list = Event.objects.filter(is_public=True)
+        if public_list:
+            public_list = public_list.exclude(organizer=request.user)
+            public_list = public_list.exclude(is_closed=True)
+
+    context = {'event_list' : event_list, 'invited_list' : invited_list, 'public_list' : public_list}
     return HttpResponse(template.render(context, request))
 
 class EventDelete(DeleteView):
@@ -126,6 +133,10 @@ class EventDelete(DeleteView):
 
 class EventUpdate(UpdateView):
     model = Event
+    form_class =  modelform_factory(
+        Event,
+        fields=('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end', 'event_length', 'is_public', 'allow_flex', 'on_time_attendees'),
+        widgets={'location': GooglePointFieldWidget}
+    )
     template_name = 'event_update_form.html'
-    fields = ('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end', 'event_length', 'is_public', 'allow_flex', 'on_time_attendees')
     success_url = reverse_lazy('dashboard')

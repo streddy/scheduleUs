@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'users.apps.UsersConfig',
+    'mapwidgets',
+    'leaflet',
     'scheduleUs',
 ]
 
@@ -77,7 +80,7 @@ WSGI_APPLICATION = 'scheduleUs.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
@@ -102,6 +105,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocationName", "uiuc"),
+    ),
+    "GOOGLE_MAP_API_KEY": "AIzaSyDXiIShmX6U8dkhrnS-urqKP5wOnrudaJs"
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -119,6 +130,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "assets/")
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -127,3 +139,5 @@ AUTH_USER_MODEL = 'users.Profile'
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
+
+SPATIALITE_LIBRARY_PATH='/usr/local/lib/mod_spatialite.dylib'

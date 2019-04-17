@@ -1,9 +1,10 @@
 from django.db import models
+from django.contrib.gis.db import models as geomodels
 
 class Event(models.Model):
     organizer = models.ForeignKey('users.Profile', on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
-    location = models.CharField(max_length=50)
+    location = geomodels.PointField()
     is_public = models.BooleanField(default=False)
     description = models.CharField(max_length=150, blank=True, null=True)
     start_time = models.DateTimeField(blank=True, null=True)

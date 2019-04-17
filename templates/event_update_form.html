@@ -7,6 +7,7 @@
 <h2>Update Event</h2>
 <form action="{% url 'event_update' event.pk %}" method="post">
     {% csrf_token %}
+    {{ form.media }}
     {{ form.as_p }}
     <button type="submit">Update Event</button>
 </form>

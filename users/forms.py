@@ -2,20 +2,26 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import *
+from mapwidgets.widgets import GooglePointFieldWidget
 
 
 class ProfileCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
         model = Profile
-        fields = ('username', 'email', 'first_name', 'last_name', 'location_city', 'location_state')
-
+        fields = ('username', 'email', 'first_name', 'last_name', 'location')
+        widgets = {
+            'location': GooglePointFieldWidget,
+        }
 
 class ProfileChangeForm(UserChangeForm):
 
     class Meta:
         model = Profile
-        fields = ('username', 'email', 'location_city', 'location_state')
+        fields = ('username', 'email', 'location')
+        widgets = {
+            'location': GooglePointFieldWidget,
+        }
 
 
 class FriendForm(forms.ModelForm):

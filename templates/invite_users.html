@@ -7,7 +7,8 @@
 <form action="{% url 'invite_users' event.pk %}" method="post">
     {% csrf_token %}
     {{ invite_form.management_form }}
-        <table>
+      <div style="text-align:center">
+        <table class="center">
             {% for form in invite_form %}
             <tr>
                 <td>
@@ -17,6 +18,8 @@
             </tr>
             {% endfor %}
         </table>
+      </div>
+    <br>
     <button type="submit">Send Invitations!</button>
 </form>
 {% endblock %}

@@ -3,6 +3,7 @@ from django.forms import widgets
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from .models import Event, PollResponse
+from mapwidgets.widgets import GooglePointFieldWidget
 
 class EventCreationForm(forms.ModelForm):
     poll_timeframe_start = forms.DateTimeField(
@@ -23,6 +24,9 @@ class EventCreationForm(forms.ModelForm):
             "is_public": "Do you want to make this a public event?",
             "allow_flex": "Are you willing to shorten the event by up to 20 minutes to maximize attendance?",
             "on_time_attendees": "Can attendees arrive late or leave early?"
+        }
+        widgets = {
+            'location': GooglePointFieldWidget,
         }
 
 

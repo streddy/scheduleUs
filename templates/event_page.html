@@ -7,6 +7,9 @@
 <html lang="en-US">
 <head>
 <title>ScheduleUs - Event Page </title>
+{% load leaflet_tags %}
+{% leaflet_js %}
+{% leaflet_css %}
 </head>
 
 <body>
@@ -22,13 +25,27 @@
     <a href={% url 'about' %}>About</a> &nbsp;
     <a href={% url 'dashboard'%}> Dashboard </a> &nbsp;
 </div>
-<h2> Event Page </h2>
+<h2> Event Details </h2>
 <hr>
-<p> Event Details </p>
+<h3><b> {{event.name}} </b></h3>
 <hr>
-<p> Name : {{event.name}} </p>
 <p> Organizer : {{event.organizer.username}}</p>
-<p> Location : {{event.location}}</p>
+
+<div>
+    <p> Location: </p>
+    {% leaflet_map "event_map" callback="map_init" %}
+</div>
+<script type="text/javascript">
+    function map_init(map, options) {
+        // get point lat and lon
+        var lon = "{{ event.location.x }}";
+        var lat = "{{ event.location.y }}";
+        // zoom to point & add it to map
+        map.setView([lat, lon], 17);
+        L.marker([lat, lon]).addTo(map).bindPopup("<b>{{event.name}}</b><br>{{event.description}}");
+    }
+</script>
+
 <p> Event Description : {{event.description}}</p>
 <p> Event Duration : {{event.event_length}}</p>
 {% if event.is_public %}
@@ -56,12 +73,12 @@
 {% if event.organizer == user %}
     <form action = "{% url 'event_confirm_delete' event.pk %}" method = "post">{% csrf_token %}
       <p> Do you want to delete {{event.name}}?</p>
-      <input type = "submit" value = "Confirm" />
+      <button type = "submit">Delete</button>
     </form>
     <br><br>
     <form action = "{% url 'event_update' event.pk %}" method = "post">{% csrf_token %}
       <p> Do you want to update {{event.name}}?</p>
-      <input type = "submit" value = "Confirm" />
+      <button type = "submit">Update</button>
     </form>
 {% endif %}
 <br><br>
