@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} Respond To Poll {%endblock%}
+{% block content %}
+<h2> Respond to {{event.name}} Poll</h2>
+<form action = "{% url 'event_response' event.pk %}" method="post">
+    {%csrf_token %}
+    {{response_form.as_p}}
+    <button type = "submit">Respond to Event Poll</button>
+</form>
+{%endblock%}
+
+

@@ -1,4 +1,4 @@
-from .forms import EventCreationForm
+from .forms import EventCreationForm, EventResponseForm
 from django.forms import modelformset_factory
 from django.forms.models import modelform_factory
 from django.shortcuts import render, redirect
@@ -9,6 +9,11 @@ from django.views.generic.edit import DeleteView, UpdateView
 from .models import Event, UserInvited
 from users.models import Friends
 from mapwidgets.widgets import GooglePointFieldWidget
+import datetime
+import pytz
+
+utc=pytz.UTC
+
 
 # EVENT VIEWS
 def create_event(request):
@@ -24,6 +29,29 @@ def create_event(request):
 
     return render(request, 'create_event.html', {'event_form': form})
 
+def respond_to_event(request, event_id):
+    if request.method == 'POST':
+        form = EventResponseForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit = False)
+            obj.responder = request.user
+            obj.event = Event.objects.get(id=event_id)
+            obj.save()
+            UserInvited.objects.filter(event=event_id, invited_user=request.user).delete()    
+            return redirect('dashboard')
+    else:
+        form = EventResponseForm()     
+    event_responding_to = Event.objects.get(id=event_id)
+    context = {'response_form':form, 'event':event_responding_to} 
+    return render(request, 'respond_to_poll.html', context)   
+
+def decline_event(request, event_id):
+    event_responding_to = Event.objects.get(id=event_id)
+    if(request.user.is_authenticated):
+        UserInvited.objects.filter(event=event_id, invited_user=request.user).delete()
+    context = {'event':event_responding_to}
+    return render(request, 'decline_event.html', context)
+   
 def invite_users(request, event_id):
     friends = Friends.objects.filter(initiator=request.user)
     invited_event = Event.objects.get(id=event_id)
@@ -53,7 +81,7 @@ def invite_users(request, event_id):
 def event_page(request, event_id):
     template = loader.get_template('event_page.html')
     curr_event = Event.objects.get(id=event_id)
-    context = {'event' : curr_event,}
+    context = {'event' : curr_event}
     return HttpResponse(template.render(context, request))
 
 def delete_event(request):
@@ -64,19 +92,37 @@ def delete_event(request):
 def dashboard(request):
     username = None
     template=loader.get_template('dashboard.html')
-
+    now = datetime.datetime.now()
+    now = now.replace(tzinfo=utc)
     event_list = {}
     invited_list = {}
     if(request.user.is_authenticated):
         username = request.user.username
         event_list = Event.objects.filter(organizer=request.user)
+        event_list = event_list.exclude(is_closed=True)
+        for event1 in event_list:
+            poll_end = event1.poll_end.replace(tzinfo=utc)
+            if(event1.poll_end<now):
+                obj = Event.objects.get(id = event1.id)
+                obj.is_closed = True
+                obj.save()
+                
         invited_list = UserInvited.objects.filter(invited_user=request.user).values('event')
         if invited_list:
             invited_list = Event.objects.filter(id__in=invited_list)
+            invited_list = invited_list.exclude(is_closed=True)
+            invited_list = invited_list.exclude(organizer=request.user)
+            for event1 in invited_list:
+                poll_end = event1.poll_end.replace(tzinfo=utc)
+                if(event1.poll_end<now):
+                    obj = Event.objects.get(id = event1.id)
+                    obj.is_closed = True
+                    obj.save()
 
         public_list = Event.objects.filter(is_public=True)
         if public_list:
             public_list = public_list.exclude(organizer=request.user)
+            public_list = public_list.exclude(is_closed=True)
 
     context = {'event_list' : event_list, 'invited_list' : invited_list, 'public_list' : public_list}
     return HttpResponse(template.render(context, request))
@@ -89,7 +135,7 @@ class EventUpdate(UpdateView):
     model = Event
     form_class =  modelform_factory(
         Event,
-        fields=('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end', 'is_public'),
+        fields=('name', 'location', 'description', 'poll_timeframe_start', 'poll_timeframe_end', 'poll_end', 'event_length', 'is_public', 'allow_flex', 'on_time_attendees'),
         widgets={'location': GooglePointFieldWidget}
     )
     template_name = 'event_update_form.html'

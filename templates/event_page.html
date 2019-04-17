@@ -47,10 +47,27 @@
 </script>
 
 <p> Event Description : {{event.description}}</p>
+<p> Event Duration : {{event.event_length}}</p>
 {% if event.is_public %}
     <p>This is a public event</p>
 {% else %}
     <p>This is a private event</p>
+{% endif %}
+
+{% if event.allow_flex %}
+    <p>This event might be shortened to maximize attendance</p>
+{% endif %}
+
+{% if event.on_time_attendees %}
+    <p>Attendees can arrive late or leave the event early</p>
+{% endif %}
+<br><br>
+{% if event.organizer == user %}
+{% elif event.is_closed %}
+    <p> Event polling is closed. Please contact Event Organizer if you have questions. </p>
+{% else %}
+    <li><a href= "/{{event.id}}/event_response/">Respond to Event</a></li>
+    <li><a href= "/{{event.id}}/event_decline/">I'm not going</a></li>
 {% endif %}
 <br><br>
 {% if event.organizer == user %}
