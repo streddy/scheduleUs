@@ -47,19 +47,32 @@
 </script>
 
 <p> Event Description : {{event.description}}</p>
-<p> Event Duration : {{event.event_length}}</p>
 {% if event.is_public %}
     <p>This is a public event</p>
 {% else %}
     <p>This is a private event</p>
 {% endif %}
 
-{% if event.allow_flex %}
-    <p>This event might be shortened to maximize attendance</p>
-{% endif %}
+{% if event.start_time %}
+    <p>This event starts at : {{event.start_time}}</p>
+    <p>This event ends at : {{event.end_time}}</p>
+{% else %}
+    <p> Event Duration : {{event.event_length}}</p>
+    {% if event.allow_flex %}
+        <p>This event might be shortened to maximize attendance</p>
+    {% endif %}
 
-{% if event.on_time_attendees %}
-    <p>Attendees can arrive late or leave the event early</p>
+    {% if event.on_time_attendees %}
+        <p>Attendees can arrive late or leave the event early</p>
+    {% endif %}
+{% endif %}
+<br><br>
+
+{% if friends_attending %}
+    <p> The following friends are attending! </p>
+    {% for friend in friends_attending %}
+        <p> {{friend.first_name}} ({{friend.username}}) </p>
+    {% endfor %}
 {% endif %}
 <br><br>
 {% if event.organizer == user %}

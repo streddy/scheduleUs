@@ -3,6 +3,7 @@
 {% block title %} Respond To Poll {%endblock%}
 {% block content %}
 <h2> Respond to {{event.name}} Poll</h2>
+<p> Enter a time interval between {{event.poll_timeframe_start}} and {{event.poll_timeframe_end}} </p>
 <form action = "{% url 'event_response' event.pk %}" method="post">
     {%csrf_token %}
     {{response_form.as_p}}
