@@ -31,6 +31,198 @@
 <a align=“center” href={% url 'add_friend' %}><button>Add a friend</button></a>
 <br><br>
 
+{% if scheduled_list %}
+    <hr>
+    <p> Your Scheduled Events </p>
+    <ul>
+      {% for event1 in scheduled_list %}
+        <li><a href="/{{event1.id}}/">{{event1.name}}</a></li>
+      {% endfor %}
+    </ul>
+
+    <div>
+        {% leaflet_map "scheduled_map" callback="scheduled_init" %}
+    </div>
+    <script type="text/javascript">
+        function scheduled_init(map, options) {
+            map.on('locationfound', function (event) {
+                L.popup().setContent("Your Location").setLatLng(event.latlng).addTo(map);
+            });
+
+            {% if scheduled_list.count > 1 %}
+                var markerList = [];
+                var eventIdList = [];
+                var eventNameList = [];
+                var eventDescList = [];
+                var latLngList = [];
+                {% for event in scheduled_list %}
+                    // get point lat and lon
+                    var lon = {{ event.location.x }};
+                    var lat = {{ event.location.y }};
+                    latLngList.push(L.latLng(lat, lon));
+                    markerList.push(L.marker([lat, lon]));
+                    eventIdList.push("{{ event.id }}");
+                    eventNameList.push("{{ event.name }}");
+                    eventDescList.push("{{ event.description }}");
+                {% endfor %}
+                
+                var bounds = new L.LatLngBounds(latLngList);
+                map.fitBounds(bounds.pad(0.5));
+                
+                for(i = 0; i < markerList.length; i++){
+                    markerList[i].addTo(map).bindPopup("<a href='/" + eventIdList[i] + "/'><b>" + eventNameList[i] + "</b></a><br>" + eventDescList[i]);
+                }
+            {% else %}
+                {% for event in scheduled_list %}
+                    // get point lat and lon
+                    var lon = {{ event.location.x }};
+                    var lat = {{ event.location.y }};
+                    map.setView([lat, lon], 17);
+                    L.marker([lat, lon]).addTo(map).bindPopup("<a href='/{{event.id}}/'><b>{{event.name}}</b></a><br>{{event.description}}"); 
+                {% endfor %}
+            {% endif %}
+
+            var rangeCircle;
+
+            var tinyButton = L.Control.extend({
+                options: {
+                    position: 'topright'
+                },
+
+                onAdd: function(map) {
+                    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+                 
+                    container.style.backgroundColor = 'green';
+                    container.style.width = '30px';
+                    container.style.height = '30px';
+                 
+                    container.onclick = function(){
+                        map.locate({setView: true});
+                        map.on('locationfound', function(event) {
+                            if(rangeCircle) {
+                                map.removeLayer(rangeCircle);
+                            }
+                            rangeCircle = L.circle(event.latlng, {radius: 402}).addTo(map);
+                            map.fitBounds(rangeCircle.getBounds());
+                        });
+                    }
+                    return container;
+                },
+            });
+            
+            var smallButton = L.Control.extend({
+                options: {
+                    position: 'topright'
+                },
+
+                onAdd: function(map) {
+                    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+                 
+                    container.style.backgroundColor = 'yellow';
+                    container.style.width = '30px';
+                    container.style.height = '30px';
+                 
+                    container.onclick = function(){
+                        map.locate({setView: true});
+                        map.on('locationfound', function(event) {
+                            if(rangeCircle) {
+                                map.removeLayer(rangeCircle);
+                            }
+                            rangeCircle = L.circle(event.latlng, {radius: 805}).addTo(map);
+                            map.fitBounds(rangeCircle.getBounds());
+                        });
+                    }
+                    return container;
+                },
+            });
+
+            var mediumButton = L.Control.extend({
+                options: {
+                    position: 'topright'
+                },
+
+                onAdd: function(map) {
+                    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+                 
+                    container.style.backgroundColor = 'orange';
+                    container.style.width = '30px';
+                    container.style.height = '30px';
+                 
+                    container.onclick = function(){
+                        map.locate({setView: true});
+                        map.on('locationfound', function(event) {
+                            if(rangeCircle) {
+                                map.removeLayer(rangeCircle);
+                            }
+                            rangeCircle = L.circle(event.latlng, {radius: 1609}).addTo(map);
+                            map.fitBounds(rangeCircle.getBounds());
+                        });
+                    }
+                    return container;
+                },
+            });
+
+            var bigButton = L.Control.extend({
+                options: {
+                    position: 'topright'
+                },
+
+                onAdd: function(map) {
+                    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+                 
+                    container.style.backgroundColor = 'red';
+                    container.style.width = '30px';
+                    container.style.height = '30px';
+                 
+                    container.onclick = function(){
+                        map.locate({setView: true});
+                        map.on('locationfound', function(event) {
+                            if(rangeCircle) {
+                                map.removeLayer(rangeCircle);
+                            }
+                            rangeCircle = L.circle(event.latlng, {radius: 8047}).addTo(map);
+                            map.fitBounds(rangeCircle.getBounds());
+                        });
+                    }
+                    return container;
+                },
+            });
+
+            var yoojButton = L.Control.extend({
+                options: {
+                    position: 'topright'
+                },
+
+                onAdd: function(map) {
+                    var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+                 
+                    container.style.backgroundColor = 'brown';
+                    container.style.width = '30px';
+                    container.style.height = '30px';
+                 
+                    container.onclick = function(){
+                        map.locate({setView: true});
+                        map.on('locationfound', function(event) {
+                            if(rangeCircle) {
+                                map.removeLayer(rangeCircle);
+                            }
+                            rangeCircle = L.circle(event.latlng, {radius: 16093}).addTo(map);
+                            map.fitBounds(rangeCircle.getBounds());
+                        });
+                    }
+                    return container;
+                },
+            });
+
+            map.addControl(new tinyButton());
+            map.addControl(new smallButton());
+            map.addControl(new mediumButton());
+            map.addControl(new bigButton());
+            map.addControl(new yoojButton());
+        }
+    </script>
+{%endif%}
+
 {% if event_list %}
     <hr>
     <p> Your Pending Schedulings </p>
